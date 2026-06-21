@@ -13,11 +13,15 @@ export type Course = {
   code: string;
   section: string;
   term: string;
+  description?: string;
   startDate: string;
+  endDate?: string;
   instructorId: string;
   joinPolicy: "Invite Code";
   isActive: boolean;
   accent: "blue" | "green" | "slate";
+  themeGradient?: "blue" | "green" | "slate" | "purple" | "gold" | "rose";
+  imageUrl?: string;
   imageLabel: string;
 };
 
