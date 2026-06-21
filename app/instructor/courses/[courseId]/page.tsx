@@ -18,6 +18,7 @@ import {
   getProjectMilestonesFromFirestore,
   getReviewRequestsFromFirestore
 } from "@/lib/firestore-data";
+import { addStudentToCourse, removeStudentFromCourse } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -143,24 +144,36 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
                       <p className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-500">Project</p>
                       <p className="mt-1 text-sm text-gray-800 dark:text-gray-200">{project?.name ?? "Unassigned"}</p>
                     </div>
-                    <button className="focus-ring rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800" type="button">
+                    <form action={removeStudentFromCourse}>
+                      <input name="courseId" type="hidden" value={activeCourse.id} />
+                      <input name="studentId" type="hidden" value={student.id} />
+                      <button className="focus-ring rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800" type="submit">
                       Remove
-                    </button>
+                      </button>
+                    </form>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          <form className="rounded-md border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <form action={addStudentToCourse} className="rounded-md border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
             <h2 className="text-lg font-semibold text-ink dark:text-white">Add Student To {activeCourse.code}</h2>
+            <input name="courseId" type="hidden" value={activeCourse.id} />
+            <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Student name
+              <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="displayName" placeholder="Ari Chen" />
+            </label>
             <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
               Student email
-              <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" placeholder="student@school.edu" />
+              <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="email" placeholder="student@school.edu" required type="email" />
             </label>
-            <button className="focus-ring mt-4 w-full rounded-md bg-pulse px-4 py-2 text-sm font-semibold text-white" type="button">
+            <button className="focus-ring mt-4 w-full rounded-md bg-pulse px-4 py-2 text-sm font-semibold text-white" type="submit">
               Add Student
             </button>
+            <p className="mt-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+              If the student does not have an account yet, Dev Pulse creates one with the temporary password DevPulse123!.
+            </p>
             <div className="mt-5 rounded-md bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-100">
               {unassignedStudents.length} enrolled student{unassignedStudents.length === 1 ? "" : "s"} are not assigned to a project yet.
             </div>
