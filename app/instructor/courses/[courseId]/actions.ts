@@ -9,7 +9,12 @@ import { getCourseFromFirestore, getProfileFromFirestore } from "@/lib/firestore
 
 const temporaryPassword = "DevPulse123!";
 
-export async function addStudentToCourse(formData: FormData) {
+export type StudentEnrollmentActionState = {
+  message: string;
+  status: "idle" | "success" | "error";
+};
+
+export async function addStudentToCourse(_previousState: StudentEnrollmentActionState, formData: FormData): Promise<StudentEnrollmentActionState> {
   const instructor = await requireRole("instructor");
   const courseId = getRequiredValue(formData, "courseId");
   const email = getRequiredValue(formData, "email").toLowerCase();
@@ -39,6 +44,13 @@ export async function addStudentToCourse(formData: FormData) {
 
   const existingProfile = await getProfileFromFirestore(userRecord.uid);
 
+  if (userRecord.uid === instructor.id || existingProfile?.role === "instructor") {
+    return {
+      message: "That account is an instructor and cannot be added as a student.",
+      status: "error"
+    };
+  }
+
   await adminFirestore.collection("users").doc(userRecord.uid).set(
     {
       displayName: existingProfile?.displayName ?? userRecord.displayName ?? displayName,
@@ -58,6 +70,11 @@ export async function addStudentToCourse(formData: FormData) {
   );
 
   revalidatePath(`/instructor/courses/${courseId}`);
+
+  return {
+    message: `${existingProfile?.displayName ?? userRecord.displayName ?? displayName} is enrolled in ${course.code}.`,
+    status: "success"
+  };
 }
 
 export async function removeStudentFromCourse(formData: FormData) {
