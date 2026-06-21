@@ -1,0 +1,65 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isInstructor() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "instructor";
+    }
+
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read: if isSelf(userId) || isInstructor();
+      allow create: if isSelf(userId);
+      allow update: if isSelf(userId) || isInstructor();
+      allow delete: if isInstructor();
+    }
+
+    match /courses/{courseId} {
+      allow read: if signedIn();
+      allow write: if isInstructor();
+    }
+
+    match /courseEnrollments/{enrollmentId} {
+      allow read: if signedIn();
+      allow write: if isInstructor();
+    }
+
+    match /projects/{projectId} {
+      allow read: if signedIn();
+      allow create: if signedIn();
+      allow update, delete: if isInstructor();
+    }
+
+    match /projectMembers/{membershipId} {
+      allow read: if signedIn();
+      allow create: if signedIn();
+      allow update, delete: if isInstructor();
+    }
+
+    match /courseMilestones/{milestoneId} {
+      allow read: if signedIn();
+      allow write: if isInstructor();
+    }
+
+    match /milestones/{milestoneId} {
+      allow read: if signedIn();
+      allow update: if signedIn();
+      allow create, delete: if isInstructor();
+    }
+
+    match /devlogs/{devlogId} {
+      allow read: if signedIn();
+      allow create: if signedIn();
+      allow update, delete: if isInstructor();
+    }
+  }
+}

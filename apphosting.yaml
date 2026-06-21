@@ -1,0 +1,13 @@
+runConfig:
+  minInstances: 0
+  maxInstances: 10
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 1024
+
+env:
+  - variable: FIREBASE_PROJECT_ID
+    value: dev-pulse-a08a3
+    availability:
+      - BUILD
+      - RUNTIME
