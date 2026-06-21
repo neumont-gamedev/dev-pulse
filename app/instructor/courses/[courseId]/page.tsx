@@ -98,34 +98,7 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
         </section>
 
         <section id="milestones" className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px]">
-          <InstructorMilestoneManager courseName={activeCourse.name} milestones={courseMilestoneDefinitions} />
-
-          <form className="rounded-md border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <h2 className="text-lg font-semibold text-ink dark:text-white">Add Milestone</h2>
-            <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Course
-              <input className="mt-1 w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300" readOnly value={`${activeCourse.code} - ${activeCourse.name}`} />
-            </label>
-            <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Milestone name
-              <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" placeholder="Playtest Ready" />
-            </label>
-            <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Due date
-              <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" type="date" />
-            </label>
-            <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Description
-              <textarea className="focus-ring mt-1 min-h-20 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" placeholder="What should teams complete for this milestone?" />
-            </label>
-            <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Required evidence
-              <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" placeholder="Build link, video demo, notes" />
-            </label>
-            <button className="focus-ring mt-4 w-full rounded-md bg-pulse px-4 py-2 text-sm font-semibold text-white" type="button">
-              Add Milestone To {activeCourse.code}
-            </button>
-          </form>
+          <InstructorMilestoneManager courseId={activeCourse.id} courseName={`${activeCourse.code} - ${activeCourse.name}`} milestones={courseMilestoneDefinitions} />
         </section>
 
         <section id="students" className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px]">

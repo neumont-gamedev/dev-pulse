@@ -14,6 +14,11 @@ export type StudentEnrollmentActionState = {
   status: "idle" | "success" | "error";
 };
 
+export type CourseMilestoneActionState = {
+  message: string;
+  status: "idle" | "success" | "error";
+};
+
 export async function addStudentToCourse(_previousState: StudentEnrollmentActionState, formData: FormData): Promise<StudentEnrollmentActionState> {
   const instructor = await requireRole("instructor");
   const courseId = getRequiredValue(formData, "courseId");
@@ -77,6 +82,110 @@ export async function addStudentToCourse(_previousState: StudentEnrollmentAction
   };
 }
 
+export async function addCourseMilestone(_previousState: CourseMilestoneActionState, formData: FormData): Promise<CourseMilestoneActionState> {
+  const { course, courseId } = await requireInstructorCourse(formData);
+  const name = getRequiredValue(formData, "name");
+  const dueDate = getRequiredValue(formData, "dueDate");
+  const description = getRequiredValue(formData, "description");
+  const requiredEvidence = parseEvidence(getOptionalValue(formData, "requiredEvidence"));
+  const milestoneRef = adminFirestore.collection("courseMilestones").doc();
+  const courseProjectsSnapshot = await adminFirestore.collection("projects").where("courseId", "==", courseId).get();
+  const batch = adminFirestore.batch();
+
+  batch.set(milestoneRef, {
+    courseId,
+    description,
+    dueDate,
+    name,
+    requiredEvidence
+  });
+
+  for (const projectSnapshot of courseProjectsSnapshot.docs) {
+    batch.set(adminFirestore.collection("milestones").doc(`${projectSnapshot.id}_${milestoneRef.id}`), {
+      courseMilestoneId: milestoneRef.id,
+      dueDate,
+      name,
+      projectId: projectSnapshot.id,
+      status: "Not Started"
+    });
+  }
+
+  await batch.commit();
+  revalidatePath(`/instructor/courses/${courseId}`);
+
+  return {
+    message: `${name} was added to ${course.code}.`,
+    status: "success"
+  };
+}
+
+export async function updateCourseMilestone(_previousState: CourseMilestoneActionState, formData: FormData): Promise<CourseMilestoneActionState> {
+  const { course, courseId } = await requireInstructorCourse(formData);
+  const milestoneId = getRequiredValue(formData, "milestoneId");
+  const name = getRequiredValue(formData, "name");
+  const dueDate = getRequiredValue(formData, "dueDate");
+  const description = getRequiredValue(formData, "description");
+  const requiredEvidence = parseEvidence(getOptionalValue(formData, "requiredEvidence"));
+  const milestoneRef = adminFirestore.collection("courseMilestones").doc(milestoneId);
+  const milestoneSnapshot = await milestoneRef.get();
+
+  if (!milestoneSnapshot.exists || milestoneSnapshot.data()?.courseId !== courseId) {
+    return {
+      message: "That milestone could not be found for this course.",
+      status: "error"
+    };
+  }
+
+  const projectMilestonesSnapshot = await adminFirestore.collection("milestones").where("courseMilestoneId", "==", milestoneId).get();
+  const batch = adminFirestore.batch();
+
+  batch.update(milestoneRef, {
+    description,
+    dueDate,
+    name,
+    requiredEvidence
+  });
+
+  for (const projectMilestone of projectMilestonesSnapshot.docs) {
+    batch.update(projectMilestone.ref, {
+      dueDate,
+      name
+    });
+  }
+
+  await batch.commit();
+  revalidatePath(`/instructor/courses/${courseId}`);
+
+  return {
+    message: `${name} was updated for ${course.code}.`,
+    status: "success"
+  };
+}
+
+export async function deleteCourseMilestone(formData: FormData) {
+  const { courseId } = await requireInstructorCourse(formData);
+  const milestoneId = getRequiredValue(formData, "milestoneId");
+  const milestoneRef = adminFirestore.collection("courseMilestones").doc(milestoneId);
+  const milestoneSnapshot = await milestoneRef.get();
+
+  if (!milestoneSnapshot.exists || milestoneSnapshot.data()?.courseId !== courseId) {
+    revalidatePath(`/instructor/courses/${courseId}`);
+    return;
+  }
+
+  const projectMilestonesSnapshot = await adminFirestore.collection("milestones").where("courseMilestoneId", "==", milestoneId).get();
+  const batch = adminFirestore.batch();
+
+  batch.delete(milestoneRef);
+
+  for (const projectMilestone of projectMilestonesSnapshot.docs) {
+    batch.delete(projectMilestone.ref);
+  }
+
+  await batch.commit();
+  revalidatePath(`/instructor/courses/${courseId}`);
+}
+
 export async function removeStudentFromCourse(formData: FormData) {
   const instructor = await requireRole("instructor");
   const courseId = getRequiredValue(formData, "courseId");
@@ -117,6 +226,18 @@ export async function removeStudentFromCourse(formData: FormData) {
   revalidatePath(`/instructor/courses/${courseId}`);
 }
 
+async function requireInstructorCourse(formData: FormData) {
+  const instructor = await requireRole("instructor");
+  const courseId = getRequiredValue(formData, "courseId");
+  const course = await getCourseFromFirestore(courseId);
+
+  if (!course || course.instructorId !== instructor.id) {
+    redirect("/instructor");
+  }
+
+  return { course, courseId, instructor };
+}
+
 function getRequiredValue(formData: FormData, key: string) {
   const value = formData.get(key);
 
@@ -144,6 +265,15 @@ function getDisplayNameFromEmail(email: string) {
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
+}
+
+function parseEvidence(value: string | null) {
+  return value
+    ? value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : [];
 }
 
 function isAuthUserNotFoundError(error: unknown) {
