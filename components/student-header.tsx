@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SignOutButton } from "./sign-out-button";
 import { ThemeToggle } from "./theme-toggle";
 
 type StudentHeaderProps = {
@@ -26,6 +27,7 @@ export function StudentHeader({ activePage }: StudentHeaderProps) {
             </svg>
             <span className="sr-only">Account</span>
           </Link>
+          <SignOutButton />
         </nav>
       </div>
     </header>

@@ -1,9 +1,6 @@
 import { adminFirestore } from "./firebase-admin";
 import type { Course, CourseEnrollment, CourseMilestone, DevlogEntry, Milestone, Profile, Project, ProjectMembership, ReviewRequest } from "./types";
 
-export const currentStudentId = "student-ari";
-export const currentInstructorId = "instructor-maple";
-
 export async function getProfileFromFirestore(profileId: string) {
   return getDocument<Profile>("users", profileId);
 }

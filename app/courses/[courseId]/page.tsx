@@ -4,8 +4,8 @@ import { DevlogForm } from "@/components/devlog-form";
 import { MilestoneTimeline } from "@/components/milestone-timeline";
 import { StatusBadge } from "@/components/status-badge";
 import { StudentHeader } from "@/components/student-header";
+import { requireRole } from "@/lib/current-user";
 import {
-  currentStudentId,
   getCourseFromFirestore,
   getProjectDevlogsFromFirestore,
   getProjectHours,
@@ -22,13 +22,14 @@ type CoursePageProps = {
 };
 
 export default async function CoursePage({ params }: CoursePageProps) {
+  const student = await requireRole("student");
   const course = await getCourseFromFirestore(params.courseId);
 
   if (!course) {
     notFound();
   }
 
-  const studentProject = (await getStudentProjectsFromFirestore(currentStudentId, course.id))[0];
+  const studentProject = (await getStudentProjectsFromFirestore(student.id, course.id))[0];
   const studentMilestones = studentProject ? await getProjectMilestonesFromFirestore(studentProject.id) : [];
   const studentEntries = studentProject ? await getProjectDevlogsFromFirestore(studentProject.id) : [];
   const totalHours = getProjectHours(studentEntries);

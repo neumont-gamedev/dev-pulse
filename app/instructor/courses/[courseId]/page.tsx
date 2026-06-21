@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import { InstructorMilestoneManager } from "@/components/instructor-milestone-manager";
 import { MilestoneTimeline } from "@/components/milestone-timeline";
 import { MetricCard } from "@/components/metric-card";
+import { SignOutButton } from "@/components/sign-out-button";
 import { StatusBadge } from "@/components/status-badge";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { requireRole } from "@/lib/current-user";
 import {
   getCourseFromFirestore,
   getCourseMilestonesFromFirestore,
@@ -26,6 +28,7 @@ type InstructorCoursePageProps = {
 };
 
 export default async function InstructorCoursePage({ params }: InstructorCoursePageProps) {
+  await requireRole("instructor");
   const activeCourse = await getCourseFromFirestore(params.courseId);
 
   if (!activeCourse) {
@@ -79,6 +82,7 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
               Projects
             </a>
             <ThemeToggle />
+            <SignOutButton />
           </nav>
         </div>
       </header>

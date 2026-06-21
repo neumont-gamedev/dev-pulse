@@ -1,11 +1,14 @@
 import { CourseCard } from "@/components/course-card";
+import { SignOutButton } from "@/components/sign-out-button";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { currentInstructorId, getInstructorCoursesFromFirestore } from "@/lib/firestore-data";
+import { requireRole } from "@/lib/current-user";
+import { getInstructorCoursesFromFirestore } from "@/lib/firestore-data";
 
 export const dynamic = "force-dynamic";
 
 export default async function InstructorPage() {
-  const courses = await getInstructorCoursesFromFirestore(currentInstructorId);
+  const instructor = await requireRole("instructor");
+  const courses = await getInstructorCoursesFromFirestore(instructor.id);
 
   return (
     <main className="min-h-screen bg-gray-50 transition-colors dark:bg-gray-950">
@@ -15,7 +18,10 @@ export default async function InstructorPage() {
             <p className="text-lg font-semibold tracking-wide text-ink dark:text-white">DEV PULSE</p>
             <p className="text-sm text-gray-600 dark:text-gray-400">Instructor</p>
           </div>
-          <ThemeToggle compact />
+          <div className="flex items-center gap-2">
+            <ThemeToggle compact />
+            <SignOutButton />
+          </div>
         </div>
       </header>
 

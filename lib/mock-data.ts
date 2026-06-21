@@ -1,11 +1,8 @@
 import type { Course, CourseEnrollment, CourseMilestone, DevlogEntry, Milestone, Profile, Project, ProjectMembership, ReviewRequest } from "./types";
 
-export const currentStudentId = "student-ari";
-export const currentInstructorId = "instructor-maple";
-
 export const profiles: Profile[] = [
   {
-    id: currentInstructorId,
+    id: "instructor-maple",
     displayName: "Professor Maple",
     email: "rmaple@neumont.edu",
     role: "instructor"
@@ -56,7 +53,7 @@ export const courses: Course[] = [
     section: "GE-410-A",
     term: "Spring 2026",
     startDate: "2026-05-05",
-    instructorId: currentInstructorId,
+    instructorId: "instructor-maple",
     joinPolicy: "Invite Code",
     isActive: true,
     accent: "green",
@@ -69,7 +66,7 @@ export const courses: Course[] = [
     section: "CAP-490-B",
     term: "Summer 2026",
     startDate: "2026-06-01",
-    instructorId: currentInstructorId,
+    instructorId: "instructor-maple",
     joinPolicy: "Invite Code",
     isActive: true,
     accent: "blue",

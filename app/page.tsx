@@ -1,11 +1,13 @@
 import { CourseCard } from "@/components/course-card";
 import { StudentHeader } from "@/components/student-header";
-import { currentStudentId, getEnrolledCoursesFromFirestore } from "@/lib/firestore-data";
+import { requireRole } from "@/lib/current-user";
+import { getEnrolledCoursesFromFirestore } from "@/lib/firestore-data";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const enrolledCourses = await getEnrolledCoursesFromFirestore(currentStudentId);
+  const student = await requireRole("student");
+  const enrolledCourses = await getEnrolledCoursesFromFirestore(student.id);
 
   return (
     <main className="min-h-screen bg-gray-50 transition-colors dark:bg-gray-950">

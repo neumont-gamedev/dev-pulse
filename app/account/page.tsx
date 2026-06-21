@@ -2,12 +2,11 @@ import Link from "next/link";
 import { ProjectCard } from "@/components/project-card";
 import { StatusBadge } from "@/components/status-badge";
 import { StudentHeader } from "@/components/student-header";
+import { requireRole } from "@/lib/current-user";
 import {
-  currentStudentId,
   getEnrolledCoursesFromFirestore,
   getJoinableProjectsFromFirestore,
   getProfilesByIdsFromFirestore,
-  getProfileFromFirestore,
   getProjectDevlogsFromFirestore,
   getProjectMilestonesFromFirestore,
   getStudentProjectsFromFirestore
@@ -16,14 +15,12 @@ import {
 export const dynamic = "force-dynamic";
 
 export default async function AccountPage() {
-  const [student, enrolledCourses] = await Promise.all([
-    getProfileFromFirestore(currentStudentId),
-    getEnrolledCoursesFromFirestore(currentStudentId)
-  ]);
+  const student = await requireRole("student");
+  const enrolledCourses = await getEnrolledCoursesFromFirestore(student.id);
   const activeCourse = enrolledCourses[0];
-  const studentProjects = activeCourse ? await getStudentProjectsFromFirestore(currentStudentId, activeCourse.id) : [];
+  const studentProjects = activeCourse ? await getStudentProjectsFromFirestore(student.id, activeCourse.id) : [];
   const studentProject = studentProjects[0];
-  const joinableProjects = activeCourse ? await getJoinableProjectsFromFirestore(currentStudentId, activeCourse.id) : [];
+  const joinableProjects = activeCourse ? await getJoinableProjectsFromFirestore(student.id, activeCourse.id) : [];
   const [studentProjectMilestones, studentProjectEntries, studentProjectMembers] = studentProject
     ? await Promise.all([
         getProjectMilestonesFromFirestore(studentProject.id),
