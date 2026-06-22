@@ -101,10 +101,6 @@ export function InstructorMilestoneManager({ courseId, courseName, milestones }:
         <h2 className="text-lg font-semibold text-ink dark:text-white">Add Milestone</h2>
         <input name="courseId" type="hidden" value={courseId} />
         <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Project
-          <input className="mt-1 w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300" readOnly value={courseName} />
-        </label>
-        <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
           Milestone name
           <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="name" placeholder="Playtest Ready" required />
         </label>

@@ -90,8 +90,7 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
       </header>
 
       <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
-        <section className="grid gap-4 md:grid-cols-4">
-          <MetricCard label="Project" value={activeCourse.code} detail="Selected project context" />
+        <section className="grid gap-4 md:grid-cols-3">
           <MetricCard label="Students" value={String(courseStudents.length)} detail="Enrolled by instructor" />
           <MetricCard label="Projects" value={String(courseProjects.length)} detail="Student-created teams" />
           <MetricCard label="Ready Reviews" value={String(readyReviews.length)} detail="Milestones awaiting feedback" />
