@@ -24,7 +24,7 @@ export async function createCourse(_previousState: CourseActionState, formData: 
 
   if (existingCourse.exists) {
     return {
-      message: `${code} already exists for ${term}.`,
+      message: `${code} already has a project for ${term}.`,
       status: "error"
     };
   }
@@ -49,7 +49,7 @@ export async function createCourse(_previousState: CourseActionState, formData: 
   revalidatePath("/instructor");
 
   return {
-    message: `${code} was created.`,
+    message: `${name} was created.`,
     status: "success"
   };
 }

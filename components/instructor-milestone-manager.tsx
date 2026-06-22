@@ -32,7 +32,7 @@ export function InstructorMilestoneManager({ courseId, courseName, milestones }:
     <>
       <div className="rounded-md border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <div className="flex flex-col gap-1">
-          <h2 className="text-xl font-semibold text-ink dark:text-white">Course Milestones</h2>
+          <h2 className="text-xl font-semibold text-ink dark:text-white">Project Milestones</h2>
           <p className="text-sm text-gray-600 dark:text-gray-400">Milestones defined here apply to projects in {courseName}.</p>
         </div>
 
@@ -101,7 +101,7 @@ export function InstructorMilestoneManager({ courseId, courseName, milestones }:
         <h2 className="text-lg font-semibold text-ink dark:text-white">Add Milestone</h2>
         <input name="courseId" type="hidden" value={courseId} />
         <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Course
+          Project
           <input className="mt-1 w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300" readOnly value={courseName} />
         </label>
         <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">

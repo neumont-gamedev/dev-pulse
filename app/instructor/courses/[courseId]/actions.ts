@@ -131,7 +131,7 @@ export async function updateCourseMilestone(_previousState: CourseMilestoneActio
 
   if (!milestoneSnapshot.exists || milestoneSnapshot.data()?.courseId !== courseId) {
     return {
-      message: "That milestone could not be found for this course.",
+      message: "That milestone could not be found for this project.",
       status: "error"
     };
   }

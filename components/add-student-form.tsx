@@ -19,7 +19,7 @@ export function AddStudentForm({ courseCode, courseId, unassignedStudentCount }:
 
   return (
     <form action={formAction} className="rounded-md border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="text-lg font-semibold text-ink dark:text-white">Add Student To {courseCode}</h2>
+      <h2 className="text-lg font-semibold text-ink dark:text-white">Add Student To Project {courseCode}</h2>
       <input name="courseId" type="hidden" value={courseId} />
       <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
         Student name

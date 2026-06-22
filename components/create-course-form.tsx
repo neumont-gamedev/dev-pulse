@@ -22,14 +22,14 @@ export function CreateCourseForm() {
 
   return (
     <form action={formAction} className="rounded-md border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="text-lg font-semibold text-ink dark:text-white">Add Course</h2>
+      <h2 className="text-lg font-semibold text-ink dark:text-white">Add Project</h2>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Course name
+          Project name
           <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="name" placeholder="Game Engine Projects" required />
         </label>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Course code
+          Course
           <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 uppercase text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="code" placeholder="PRO385" required />
         </label>
       </div>
@@ -52,7 +52,7 @@ export function CreateCourseForm() {
         </label>
       </div>
       <fieldset className="mt-4">
-        <legend className="text-sm font-medium text-gray-700 dark:text-gray-300">Course theme</legend>
+        <legend className="text-sm font-medium text-gray-700 dark:text-gray-300">Project theme</legend>
         <div className="mt-2 grid gap-2 sm:grid-cols-3">
           {themes.map((theme) => (
             <label key={theme.value} className="focus-within:ring-pulse flex cursor-pointer items-center gap-2 rounded-md border border-gray-200 p-2 text-sm text-gray-700 dark:border-gray-700 dark:text-gray-200">
@@ -82,7 +82,7 @@ function SubmitButton() {
 
   return (
     <button className="focus-ring mt-5 w-full rounded-md bg-pulse px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60" disabled={pending} type="submit">
-      {pending ? "Creating Course..." : "Create Course"}
+      {pending ? "Creating Project..." : "Create Project"}
     </button>
   );
 }

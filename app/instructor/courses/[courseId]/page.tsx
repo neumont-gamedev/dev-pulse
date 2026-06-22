@@ -68,7 +68,7 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div>
             <Link className="focus-ring rounded-md text-sm font-medium text-pulse hover:underline" href="/instructor">
-              Back to courses
+              Back to projects
             </Link>
             <h1 className="mt-2 text-3xl font-semibold text-ink dark:text-white">{activeCourse.name}</h1>
             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">{activeCourse.code} - {activeCourse.section} - {activeCourse.term}</p>
@@ -91,7 +91,7 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
 
       <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
         <section className="grid gap-4 md:grid-cols-4">
-          <MetricCard label="Course" value={activeCourse.code} detail="Selected course context" />
+          <MetricCard label="Project" value={activeCourse.code} detail="Selected project context" />
           <MetricCard label="Students" value={String(courseStudents.length)} detail="Enrolled by instructor" />
           <MetricCard label="Projects" value={String(courseProjects.length)} detail="Student-created teams" />
           <MetricCard label="Ready Reviews" value={String(readyReviews.length)} detail="Milestones awaiting feedback" />
