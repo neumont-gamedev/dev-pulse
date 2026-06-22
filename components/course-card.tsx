@@ -32,8 +32,8 @@ export function CourseCard({ course, href }: CourseCardProps) {
         </div>
       </div>
       <div className="p-6">
-        <p className="truncate text-lg font-semibold text-gray-700 dark:text-gray-200">{course.name}</p>
-        <p className="mt-2 text-2xl font-medium text-ink dark:text-white">{course.code}</p>
+        <p className="text-2xl font-semibold leading-tight text-ink dark:text-white">{course.name}</p>
+        <p className="mt-2 text-lg font-medium text-gray-700 dark:text-gray-200">{course.code}</p>
         <p className="mt-1 text-base text-gray-700 dark:text-gray-300">{course.term}</p>
         {course.description ? <p className="mt-3 line-clamp-2 text-sm leading-5 text-gray-600 dark:text-gray-400">{course.description}</p> : null}
         {course.startDate && course.endDate ? <p className="mt-3 text-xs font-medium text-gray-500 dark:text-gray-500">{course.startDate} to {course.endDate}</p> : null}
