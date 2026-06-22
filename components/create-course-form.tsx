@@ -65,7 +65,7 @@ export function CreateCourseForm() {
       </fieldset>
       <label className="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-300">
         Card image URL
-        <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="imageUrl" placeholder="https://..." type="url" />
+        <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="imageUrl" placeholder="/course-images/bsgd-logo.jpg or https://..." type="text" />
       </label>
       {state.message ? (
         <p className={`mt-3 rounded-md p-3 text-sm ${state.status === "error" ? "bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-200" : "bg-green-50 text-green-700 dark:bg-green-950/40 dark:text-green-200"}`}>
