@@ -98,7 +98,7 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
         </section>
 
         <section id="milestones" className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px]">
-          <InstructorMilestoneManager courseId={activeCourse.id} courseName={`${activeCourse.code} - ${activeCourse.name}`} milestones={courseMilestoneDefinitions} />
+          <InstructorMilestoneManager courseId={activeCourse.id} courseName={activeCourse.name} milestones={courseMilestoneDefinitions} />
         </section>
 
         <section id="students" className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px]">
