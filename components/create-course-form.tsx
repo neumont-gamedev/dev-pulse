@@ -41,16 +41,6 @@ export function CreateCourseForm() {
         Short description
         <textarea className="focus-ring mt-1 min-h-20 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="description" placeholder="Senior game engine project tracking and milestone reviews." required />
       </label>
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Start date
-          <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="startDate" required type="date" />
-        </label>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          End date
-          <input className="focus-ring mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100" name="endDate" required type="date" />
-        </label>
-      </div>
       <fieldset className="mt-4">
         <legend className="text-sm font-medium text-gray-700 dark:text-gray-300">Project theme</legend>
         <div className="mt-2 grid gap-2 sm:grid-cols-3">

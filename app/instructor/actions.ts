@@ -15,8 +15,7 @@ export async function createCourse(_previousState: CourseActionState, formData: 
   const code = getRequiredValue(formData, "code").toUpperCase();
   const term = getRequiredValue(formData, "term");
   const description = getRequiredValue(formData, "description");
-  const startDate = getRequiredValue(formData, "startDate");
-  const endDate = getRequiredValue(formData, "endDate");
+  const startDate = new Date().toISOString().slice(0, 10);
   const themeGradient = getRequiredValue(formData, "themeGradient");
   const imageUrl = getOptionalValue(formData, "imageUrl");
   const courseRef = adminFirestore.collection("courses").doc(createCourseId(code, term));
@@ -33,7 +32,6 @@ export async function createCourse(_previousState: CourseActionState, formData: 
     accent: getAccentFromTheme(themeGradient),
     code,
     description,
-    endDate,
     imageLabel: name.toUpperCase(),
     imageUrl,
     instructorId: instructor.id,

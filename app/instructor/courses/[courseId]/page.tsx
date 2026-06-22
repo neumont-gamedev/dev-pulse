@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { AddStudentForm } from "@/components/add-student-form";
 import { InstructorMilestoneManager } from "@/components/instructor-milestone-manager";
 import { MilestoneTimeline } from "@/components/milestone-timeline";
-import { MetricCard } from "@/components/metric-card";
 import { SignOutButton } from "@/components/sign-out-button";
 import { StatusBadge } from "@/components/status-badge";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -59,7 +58,6 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
       };
     })
   );
-  const readyReviews = projectDetails.flatMap((detail) => detail.projectMilestones).filter((milestone) => milestone.status === "Ready for Review");
   const unassignedStudents = courseStudents.filter((student) => !courseProjects.some((project) => project.teamMemberIds.includes(student.id)));
 
   return (
@@ -90,12 +88,6 @@ export default async function InstructorCoursePage({ params }: InstructorCourseP
       </header>
 
       <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
-        <section className="grid gap-4 md:grid-cols-3">
-          <MetricCard label="Students" value={String(courseStudents.length)} detail="Enrolled by instructor" />
-          <MetricCard label="Projects" value={String(courseProjects.length)} detail="Student-created teams" />
-          <MetricCard label="Ready Reviews" value={String(readyReviews.length)} detail="Milestones awaiting feedback" />
-        </section>
-
         <section id="milestones" className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px]">
           <InstructorMilestoneManager courseId={activeCourse.id} courseName={activeCourse.name} milestones={courseMilestoneDefinitions} />
         </section>
